@@ -9,6 +9,7 @@ Content-Type: application/json
 }
 
 ###
+# @name login
 POST http://localhost:3003/user/login
 Content-Type: application/json
 
@@ -18,3 +19,32 @@ Content-Type: application/json
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###
+@token = {{ login.response.body.token }}
+POST http://localhost:3003/show/create
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "band_id": "123456",
+    "week_day": "Sexta",
+    "start_time": 8,
+    "end_time": 10
+}

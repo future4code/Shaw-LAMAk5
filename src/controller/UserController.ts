@@ -8,21 +8,23 @@ export class UserController {
     constructor(
         private userBusiness: UserBusiness
     ) { }
-    signup = async (req: Request, res: Response) => {
+    createUser = async (req: Request, res: Response) => {
         try {
 
+            const { name, email, password, role } = req.body
+
             const input: UserInputDTO = {
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password,
-                role: req.body.role
+                name,
+                email,
+                password,
+                role
             }
-            
+
             const token = await this.userBusiness.createUser(input);
 
-            res.status(200).send({ message: "Usuário cadastrado com sucesso", token });
+            res.status(200).send({ message: "User registered successfully", token });
 
-        } catch (error) {           
+        } catch (error) {
             if (error instanceof Error) {
                 return res.status(400).send(error.message)
             }
@@ -36,14 +38,16 @@ export class UserController {
 
         try {
 
-            const loginData: LoginInputDTO = {
-                email: req.body.email,
-                password: req.body.password
-            };
+            const { email, password } = req.body
 
-            const token = await this.userBusiness.getUserByEmail(loginData);
+            const input: LoginInputDTO = {
+                email,
+                password
+            }
 
-            res.status(200).send({ message: "Usuário logado com sucesso", token });
+            const token = await this.userBusiness.getUserByEmail(input);
+
+            res.status(200).send({ message: "User logged in successfully", token });
 
         } catch (error) {
             if (error instanceof Error) {

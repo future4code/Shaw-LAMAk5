@@ -38,7 +38,7 @@ const user3: UserInputDTO = {
     name: "Victor",
     email: "vitor@gmail.com",
     password: "123456",
-    role: "batata"
+    role: "batatinha"
 }
 
 describe("Testando o signup", () => {

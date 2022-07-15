@@ -1,8 +1,9 @@
-import { UserInputDTO, LoginInputDTO } from "../model/User";
+import { UserInputDTO, LoginInputDTO, UserRole, stringToUserRole } from "../model/User";
 import { UserDatabase } from "../data/UserDatabase";
 import { HashManager } from "../services/HashManager";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
+import { BaseError } from "../error/BaseError";
 
 export class UserBusiness {
     constructor(
@@ -11,22 +12,36 @@ export class UserBusiness {
         private hashManager: HashManager,
         private authenticator: Authenticator,
     ) { }
-    createUser = async (user: UserInputDTO) => {       
-        
-        const { name, email, password, role } = user
+    createUser = async (input: UserInputDTO) => {
+        const { name, password, email, role } = input
+
         if (!name || !email || !password || !role) {
-            throw new Error("Campos inválidos")
+            throw new BaseError(422, "Invalid fields")
 
         }
-        const registeredUser = await this.userData.getUserByEmail(user.email)
+
+        if (email.indexOf("@") === -1) {
+            throw new BaseError(422, "Invalid email");
+        }
+
+        if (password.length < 6) {
+            throw new BaseError(422, "Invalid password")
+        }
+
+        if (role !== "NORMAL" && role !== "ADMIN") {
+            throw new BaseError(422, "Invalid user role")
+        }
+
+        const registeredUser = await this.userData.getUserByEmail(email)
         if (registeredUser) {
-            throw new Error("Email já cadastrado")
+            throw new BaseError(422, "E-mail already registered")
         }
-        const id = this.idGenerator.generate();       
 
-        const hashPassword = await this.hashManager.hash(user.password);
-        
-        await this.userData.createUser(id, name, email, hashPassword, role);
+        const id = this.idGenerator.generate();
+
+        const hashPassword = await this.hashManager.hash(password);
+
+        await this.userData.signup(id, name, email, hashPassword, role);
 
         const accessToken = this.authenticator.generateToken({ id, role });
 
@@ -37,18 +52,27 @@ export class UserBusiness {
 
         const { email, password } = user
         if (!email || !password) {
-            throw new Error("'email' e 'senha' são obrigatórios")
+            throw new BaseError(422, "'email' and 'password' are required")
         }
+
+        if (email.indexOf("@") === -1) {
+            throw new BaseError(422, "Invalid email");
+        }
+
+        if (password.length < 6) {
+            throw new BaseError(422, "Invalid password");
+        }
+
         const userFromDB = await this.userData.getUserByEmail(user.email)
 
         if (!userFromDB) {
-            throw new Error("Usuário não encontrado")
+            throw new BaseError(401, "User not found")
         }
 
         const hashCompare = await this.hashManager.compare(user.password, userFromDB.getPassword());
 
         if (!hashCompare) {
-            throw new Error("Senha incorreta")
+            throw new BaseError(401, "Incorrect password")
         }
 
         const accessToken = this.authenticator.generateToken({ id: userFromDB.getId(), role: userFromDB.getRole() });

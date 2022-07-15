@@ -1,11 +1,11 @@
 import { BaseDatabase } from "./BaseDatabase";
-import { User } from "../model/User";
+import { toUserModel, User } from "../model/User";
 
 export class UserDatabase extends BaseDatabase {
 
   private static TABLE_NAME = "lama_usuarios";
 
-  public createUser = async (
+  public signup = async (
     id: string,
     name: string,
     email: string,
@@ -36,7 +36,7 @@ export class UserDatabase extends BaseDatabase {
         .where({ email });
 
         if(result[0]){
-          return User.toUserModel(result[0]);
+          return toUserModel(result[0]);
         }else{
           return undefined
         }

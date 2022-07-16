@@ -16,3 +16,5 @@ const showBusiness = new ShowBusiness(
 const showController = new ShowController(showBusiness);
 
 showRouter.post("/create", showController.scheduleShow);
+showRouter.get("/getshow", showController.getShowDay);
+

@@ -20,27 +20,33 @@ export class ShowDatabase extends BaseDatabase {
     }
   };
 
-  getAllShow =async () => {
+  getAllShow = async () => {
     try {
       const result = await this.getConnection()
-      .select("*")
-      .into(ShowDatabase.TABLE_NAME)
-      return result
-
-    } catch (error:any) {
+        .select("*")
+        .into(ShowDatabase.TABLE_NAME);
+      return result;
+    } catch (error: any) {
       throw new Error(error.sqlMessage || error.message);
-      
     }
-  }
+  };
 
-  getShowDay = async (week_day:string) => {
+  getShowDay = async (week_day: string) => {
     try {
       const result = await this.getConnection()
-      // .select("lama_bandas.name", "lama_bandas.music_genre")
-      // .join()
-    } catch (error:any) {
+        .select(
+          "lama_bandas.name",
+          "lama_bandas.music_genre",
+          "lama_shows.start_time",
+          "lama_shows.end_time"
+        )
+        .join("lama_shows", "lama_bandas.id", "lama_shows.band_id")
+        .where({ week_day })
+        .orderBy("start_time")
+        .from("lama_bandas");
+      return result;
+    } catch (error: any) {
       throw new Error(error.sqlMessage || error.message);
-      
     }
-  }
+  };
 }

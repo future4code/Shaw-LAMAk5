@@ -30,18 +30,20 @@ export class ShowController {
   getShowDay = async (req: Request, res: Response) => {
     try {
       const token = req.headers.authorization!;
-      const week_day = req.query.day as string
+      const week_day = req.query.week_day as string;
 
       const day: showDayInputDTO = {
         token,
-        week_day
-      }
+        week_day,
+      };
 
-      const result = await this.showBusiness.verifyDay(day)
-    } catch (error:any) {
+      const result = await this.showBusiness.verifyDay(day);
+
+      res.status(201).send(result);
+    } catch (error: any) {
       res.status(error.statusCode || 500).send({
         message: error.message,
       });
     }
-  }
+  };
 }

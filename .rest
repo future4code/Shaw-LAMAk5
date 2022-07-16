@@ -1,3 +1,4 @@
+# Criar cadastro 
 POST http://localhost:3003/user/signup
 Content-Type: application/json
 
@@ -10,6 +11,7 @@ Content-Type: application/json
 
 ###
 ###
+# Logar 
 # @name login
 POST http://localhost:3003/user/login
 Content-Type: application/json
@@ -20,50 +22,44 @@ Content-Type: application/json
 }
 
 ###
+# Cadastrar branda 
 @token = {{login.response.body.token}}
 POST http://localhost:3003/band/newBand
 Content-Type: application/json
 Authorization:{{token}}
 
 {
-    "name": "Renam e os boladores",
-    "music_genre": "Breganejo",
-    "responsible" : "Renan o Macho"
+    "name": "Charlie Brown",
+    "music_genre": "Rock",
+    "responsible" : "Chorão"
 }
 
 ###
+# Mostrar informações da banda 
+
 @token = {{login.response.body.token}}
 GET http://localhost:3003/band/getBand/Renam e os boladores
 Content-Type: application/json
 Authorization:{{token}}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###
+# Cadastrar show 
 @token = {{ login.response.body.token }}
 POST http://localhost:3003/show/create
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "band_id": "e8e7c856-a19f-4a05-b8c3-a8324e3b6775",
-    "week_day": "sabado",
-    "start_time": 11,
-    "end_time": 10
+    "band_id": "9a9275a1-8f51-41c1-81b5-86b00e9132af",
+    "week_day": "sexta",
+    "start_time": 20,
+    "end_time": 22
 }
+
+###
+# Mostrar todos os show de um dia 
+@token = {{ login.response.body.token }}
+
+GET http://localhost:3003/show/getshow/?week_day=sexta
+Authorization: {{token}}

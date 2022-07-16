@@ -43,8 +43,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "band_id": "123456",
-    "week_day": "Sexta",
-    "start_time": 8,
+    "band_id": "e8e7c856-a19f-4a05-b8c3-a8324e3b6775",
+    "week_day": "sabado",
+    "start_time": 11,
     "end_time": 10
 }

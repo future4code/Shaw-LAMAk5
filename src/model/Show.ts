@@ -1,6 +1,8 @@
-type weekDay = {
-  day: "Sexta" | "Sábado" | "Domingo";
-};
+export enum weekDay {
+  sexta = "sexta",
+  sabado = "sabado",
+  domingo = "domingo",
+}
 
 export class Show {
   constructor(
@@ -13,12 +15,13 @@ export class Show {
   public getId() {
     return this.band_id;
   }
-  public getWeek_day(): weekDay {
-    return this.week_day;
-  }
+
+  public getWeek_day = (): weekDay => this.week_day;
+
   public getStart_time() {
     return this.start_time;
   }
+  
   public getEnd_time() {
     return this.end_time;
   }
@@ -39,3 +42,8 @@ export interface ShowInputDTO {
   start_time: number;
   end_time: number;
 }
+
+export type showDayInputDTO = {
+  token: string;
+  week_day: string;
+};

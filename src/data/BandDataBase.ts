@@ -1,49 +1,45 @@
 import { BaseDatabase } from "./BaseDatabase";
-import { toUserModel, User } from "../model/User";
+import { User } from "../model/User";
+import { Band } from "../model/Band";
 
-export class UserDatabase extends BaseDatabase {
+export class BandDatabase extends BaseDatabase {
 
-  private static TABLE_NAME = "lama_usuarios";
+  private static TABLE_NAME = "lama_bandas";
 
-  public signup = async (
+  public createBand = async (
     id: string,
     name: string,
-    email: string,
-    password: string,
-    role: string
+    music_genre: string,
+    responsible: string,
   ): Promise<void> => {
     try {
       await this.getConnection()
         .insert({
           id,
           name,
-          email,
-          password,
-          role
+          music_genre,
+          responsible  
         })
-        .into(UserDatabase.TABLE_NAME);
+        .into(BandDatabase.TABLE_NAME);
     } catch (error: any) {
       throw new Error(error.sqlMessage || error.message);
     }
   }
 
-  public getUserByEmail = async (email: string): Promise<User | undefined>  => {
+  public getBandByName = async (name: string): Promise<Band | undefined>  => {
     try {
-
       const result = await this.getConnection()
         .select("*")
-        .from(UserDatabase.TABLE_NAME)
-        .where({ email });
+        .from(BandDatabase.TABLE_NAME)
+        .where({ name });
 
         if(result[0]){
-          return toUserModel(result[0]);
+          return Band.toBandModel(result[0]);
         }else{
           return undefined
         }
     } catch (error: any) {
       throw new Error(error.sqlMessage || error.message)
-   }
-
+    }
   }
-
 }

@@ -17,5 +17,5 @@ const userBusiness = new UserBusiness(
 
 const userController = new UserController(userBusiness);
 
-userRouter.post("/signup", userController.signup);
+userRouter.post("/signup", userController.createUser);
 userRouter.post("/login", userController.login);

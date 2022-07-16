@@ -2,12 +2,13 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-    "name": "Renan",
-    "email": "renan@hotmail.com",
-    "password": "paulista",
-    "role": "ADMIN"
+    "name": "Alek",
+    "email": "lek_bolador@hotmail.com",
+    "password": "bolaumback",
+    "role": "NORMAL"
 }
 
+###
 ###
 # @name login
 POST http://localhost:3003/user/login
@@ -17,6 +18,24 @@ Content-Type: application/json
     "email": "renan@hotmail.com",
     "password": "paulista"
 }
+
+###
+@token = {{login.response.body.token}}
+POST http://localhost:3003/band/newBand
+Content-Type: application/json
+Authorization:{{token}}
+
+{
+    "name": "Renam e os boladores",
+    "music_genre": "Breganejo",
+    "responsible" : "Renan o Macho"
+}
+
+###
+@token = {{login.response.body.token}}
+GET http://localhost:3003/band/getBand/Renam e os boladores
+Content-Type: application/json
+Authorization:{{token}}
 
 
 

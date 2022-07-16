@@ -1,3 +1,4 @@
+# Criar cadastro 
 POST http://localhost:3003/user/signup
 Content-Type: application/json
 
@@ -8,7 +9,9 @@ Content-Type: application/json
     "role": "NORMAL"
 }
 
-#### 
+###
+###
+# Logar 
 # @name login
 POST http://localhost:3003/user/login
 Content-Type: application/json
@@ -19,21 +22,44 @@ Content-Type: application/json
 }
 
 ###
+# Cadastrar branda 
 @token = {{login.response.body.token}}
 POST http://localhost:3003/band/newBand
 Content-Type: application/json
 Authorization:{{token}}
 
 {
-    "name": "Renam e os boladores",
-    "music_genre": "Breganejo",
-    "responsible" : "Renan o Macho"
+    "name": "Charlie Brown",
+    "music_genre": "Rock",
+    "responsible" : "Chorão"
 }
 
 ###
+# Mostrar informações da banda 
+
 @token = {{login.response.body.token}}
 GET http://localhost:3003/band/getBand/Renam e os boladores
 Content-Type: application/json
 Authorization:{{token}}
 
 
+###
+# Cadastrar show 
+@token = {{ login.response.body.token }}
+POST http://localhost:3003/show/create
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "band_id": "e8e7c856-a19f-4a05-b8c3-a8324e3b6775",
+    "week_day": "dominGo",
+    "start_time": 12,
+    "end_time": 13
+}
+
+###
+# Mostrar todos os show de um dia 
+@token = {{ login.response.body.token }}
+
+GET http://localhost:3003/show/getshow/?week_day=domingo
+Authorization: {{token}}

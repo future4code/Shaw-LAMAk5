@@ -6,15 +6,14 @@ import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 
-
 export const userRouter = express.Router();
 
 const userBusiness = new UserBusiness(
-    new UserDatabase(),
-    new IdGenerator(),
-    new HashManager(),
-    new Authenticator()
-)
+  new UserDatabase(),
+  new IdGenerator(),
+  new HashManager(),
+  new Authenticator()
+);
 
 const userController = new UserController(userBusiness);
 

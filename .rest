@@ -51,15 +51,15 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "band_id": "9a9275a1-8f51-41c1-81b5-86b00e9132af",
-    "week_day": "sexta",
-    "start_time": 20,
-    "end_time": 22
+    "band_id": "e8e7c856-a19f-4a05-b8c3-a8324e3b6775",
+    "week_day": "dominGo",
+    "start_time": 12,
+    "end_time": 13
 }
 
 ###
 # Mostrar todos os show de um dia 
 @token = {{ login.response.body.token }}
 
-GET http://localhost:3003/show/getshow/?week_day=sexta
+GET http://localhost:3003/show/getshow/?week_day=domingo
 Authorization: {{token}}

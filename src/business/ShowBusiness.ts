@@ -1,4 +1,5 @@
 import { ShowDatabase } from "../data/ShowDatabase";
+import { BaseError } from "../error/BaseError";
 import { Show, showDayInputDTO, ShowInputDTO } from "../model/Show";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
@@ -18,7 +19,7 @@ export class ShowBusiness {
   createShow = async (token: string, newShow: ShowInputDTO) => {
     const { band_id, week_day, start_time, end_time } = newShow;
     if (!token || !band_id || !week_day || !start_time || !end_time) {
-      throw new Error("Todos os campos precisam ser preenchidos");
+      throw new BaseError(422, "All fields need to be filled");
     }
 
     if (
@@ -26,30 +27,30 @@ export class ShowBusiness {
       week_day.toUpperCase() != "SABADO" &&
       week_day.toUpperCase() != "DOMINGO"
     ) {
-      throw new Error("Escolha entre Sexta, Sábado e Domingo");
+      throw new BaseError(422, "Choose between Friday, Saturday and Sunday");
     }
 
     const authorization = this.authenticator.getData(token);
     if (!authorization) {
-      throw new Error("Token inválido");
+      throw new BaseError(422, "Invalid Token");
     }
 
     //verificando horario
     if (start_time < 8 || start_time > 22) {
-      throw new Error("Horario de inicio inválido");
+      throw new BaseError(422, "Invalid start time");
     }
     if (end_time < 9 || end_time > 23) {
-      throw new Error("Horario final inválido");
+      throw new BaseError(422, "Invalid end time");
     }
     if (start_time >= end_time) {
-      throw new Error("Horario inválidos");
+      throw new BaseError(422, "Invalid time");
     }
 
     // verificar se já tem show no mesmo horario
     const checkShow = await this.checkShow();
     checkShow.map((show) => {
       if (week_day === show.week_day && start_time === show.start_time) {
-        throw new Error("Já existe show para o mesmo período");
+        throw new BaseError(422, "There is already a show for the same period");
       }
     });
 
@@ -66,12 +67,12 @@ export class ShowBusiness {
     const { token, week_day } = day;
 
     if (!token || !week_day) {
-      throw new Error("Todos os campos precisam ser preenchidos");
+      throw new BaseError(422, "All fields need to be filled");
     }
 
     const authorization = this.authenticator.getData(token);
     if (!authorization) {
-      throw new Error("Token inválido");
+      throw new BaseError(422, "Invalid token");
     }
 
     const result = await this.showDatabase.getShowDay(week_day);

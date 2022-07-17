@@ -46,10 +46,6 @@ export class User {
     setRole(role: UserRole) {
         this.role = role;
     }
-
-
-
-
 }
 
 export const stringToUserRole = (input: string): UserRole => {

@@ -48,7 +48,7 @@ describe("Testando o signup", () => {
             await userBusinessMock.createUser(user)
 
         } catch (error: any) {
-            expect(error.message).toEqual("Campos inválidos")
+            expect(error.message).toEqual("Invalid fields")
             expect(error.code).toBe(422)
         } finally {
             expect.assertions(2)
@@ -113,7 +113,7 @@ describe("Testando o signup", () => {
             try {
                 await userBusinessMock.getUserByEmail(login1)
             } catch (error: any) {
-                expect(error.message).toEqual("'email' e 'senha' são obrigatórios")
+                expect(error.message).toEqual("'email' and 'password' are required")
                 expect(error.code).toBe(422)
             } finally {
                 expect.assertions(2)

@@ -23,7 +23,7 @@ Content-Type: application/json
 
 ###
 # Cadastrar branda 
-@token = {{login.response.body.token}}
+@token = {{ login.response.body.token }}
 POST http://localhost:3003/band/newBand
 Content-Type: application/json
 Authorization:{{token}}
@@ -37,7 +37,7 @@ Authorization:{{token}}
 ###
 # Mostrar informações da banda 
 
-@token = {{login.response.body.token}}
+@token = {{ login.response.body.token }}
 GET http://localhost:3003/band/getBand/Renam e os boladores
 Content-Type: application/json
 Authorization:{{token}}

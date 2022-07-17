@@ -12,7 +12,6 @@ app.use(express.json());
 
 app.use("/user", userRouter);
 app.use("/show", showRouter);
-
 app.use("/band", bandRouter);
 
 const server = app.listen(process.env.PORT || 3003, () => {
@@ -22,4 +21,4 @@ const server = app.listen(process.env.PORT || 3003, () => {
     } else {
       console.error(`Falha ao rodar o servidor.`);
     }
-  });
+});

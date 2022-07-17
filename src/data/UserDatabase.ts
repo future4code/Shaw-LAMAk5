@@ -42,8 +42,6 @@ export class UserDatabase extends BaseDatabase {
         }
     } catch (error: any) {
       throw new Error(error.sqlMessage || error.message)
-   }
-
+    }
   }
-
 }

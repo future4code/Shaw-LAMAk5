@@ -5,7 +5,6 @@ import { BandDatabase } from "../data/BandDataBase";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
-
 export const bandRouter = express.Router();
 
 const bandBusiness = new BandBusiness(

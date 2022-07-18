@@ -1,5 +1,4 @@
 import { BaseDatabase } from "./BaseDatabase";
-import { User } from "../model/User";
 import { Band } from "../model/Band";
 
 export class BandDatabase extends BaseDatabase {

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { LoginInputDTO } from "../model/User";
 import { BaseDatabase } from "../data/BaseDatabase";
 import { BandBusiness } from "../business/BandBusiness";
 import { BandInputDTO } from "../model/Band";
@@ -39,7 +38,6 @@ export class BandController {
             const token = req.headers.authorization!;
             const band = await this.bandBusiness.getBandByName(name, token);
 
-
             res.status(200).send({ message: "Informações da banda", band });
 
         } catch (error) {
@@ -51,5 +49,4 @@ export class BandController {
 
         await BaseDatabase.destroyConnection();
     }
-
 }
